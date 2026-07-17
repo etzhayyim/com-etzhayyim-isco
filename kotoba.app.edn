@@ -1,0 +1,9 @@
+{:kotoba.app/name "isco"
+ :kotoba.app/version "0.1.0"
+ :kotoba.app/components
+ [{:name "isco"
+   :src "methods/mesh.clj"
+   :scale 1
+   :triggers [{:type :kse :topic "etzhayyim/actor/isco"}]
+   :requires #{:cap/kqe}}]
+ :kotoba.app/placement {:spread :zone :require {:tier "edge"}}}
