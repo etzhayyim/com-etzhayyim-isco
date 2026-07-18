@@ -1,0 +1,5 @@
+{:identity/id "did:web:isco.etzhayyim.com"
+ :identity/actor "isco"
+ :identity/canonical-document "manifest.edn"
+ :identity/external-did-document ".well-known/did.json"
+ :identity/canonical-format :edn}

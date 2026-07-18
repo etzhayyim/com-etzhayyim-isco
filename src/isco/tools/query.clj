@@ -1,4 +1,4 @@
-(ns query
+(ns isco.tools.query
   (:require [clojure.edn :as edn]
             [clojure.string :as str]))
 
@@ -112,6 +112,3 @@
         "gaps" (cmd-gaps idx)
         (println "unknown command:" command)))
     (usage)))
-
-(when (= *file* (System/getProperty "babashka.file"))
-  (apply -main *command-line-args*))

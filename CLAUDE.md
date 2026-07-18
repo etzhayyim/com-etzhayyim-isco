@@ -1,6 +1,7 @@
-# etzhayyim-project-open-isco — ISCO Workforce Coordinator Rules
+# com-etzhayyim-isco — ISCO Workforce Coordinator Rules
 
-ISCO project 固有のルール。共通ルールは `60-apps/CLAUDE.md` と `70-tools/CLAUDE.md` を参照。
+ISCO actor 固有のルール。repository contract と exact dependency revision は
+`repository-contracts.edn` / `dependencies.edn` を正規情報とする。
 
 ## Overview
 
@@ -33,7 +34,7 @@ did:web:isco.etzhayyim.com:occupation:{code}
 
 | WIT | パス | 内容 |
 |---|---|---|
-| `etzhayyim:isco-workforce-coordinator` | `wasm/*/wit/world.wit` | coordinator world (contract + capability export) |
+| `etzhayyim:isco-workforce-coordinator` | flat sibling `orgs/kotoba-lang/kotoba` | coordinator world (contract + capability export) |
 | `kotodama:isco-workforce-flow@1.0.0` | `wit/isco-workforce-flow/package.wit` | workforce-mobility, workforce-compensation, workforce-skills |
 
 ## Commands

@@ -1,0 +1,13 @@
+{:repository/name "com-etzhayyim-isco"
+ :repository/category :actor
+ :repository/canonical-format :edn
+ :repository/canonical-metadata "manifest.edn"
+ :repository/canonical-identity "identity.edn"
+ :repository/dependencies "dependencies.edn"
+ :repository/source-roots ["src"]
+ :repository/test-roots ["test"]
+ :repository/lexicons ["lex/apps" "lex/open-isco"]
+ :repository/canonical-data ["data/isco-occupations.edn" "open-isco-sample.edn" "kotoba.app.edn"]
+ :repository/external-wire "wire"
+ :repository/legacy-artifacts-forbidden ["actor-manifest.jsonld" "kotoba/coordinator.wasm"
+                                         "kotoba/build.sh" "kotoba/run_tests.sh"]}

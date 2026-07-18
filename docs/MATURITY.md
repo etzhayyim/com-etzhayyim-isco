@@ -3,7 +3,7 @@
 _Generated for the kotoba-datomic / clj→WASM pilot. Implementation engine:
 `moonshotai/kimi-k2.7-code` via OpenRouter; orchestration + verification: Claude._
 
-## Coordinator cell commands (`coordinator.clj` → `coordinator.wasm`)
+## Coordinator cell source commands
 
 | mode | command | host surface | output | test |
 |---|---|---|---|---|
@@ -15,10 +15,10 @@ _Generated for the kotoba-datomic / clj→WASM pilot. Implementation engine:
 | 5 | materialize | `kqe-query` + cbor array | CBOR array (child codes) | ✅ |
 | 6 | ratio | `kqe-query` ×2 + cbor map | CBOR map {names,parents} | ✅ |
 
-All 7 commands compile to a single WASM Component (kotoba:kais world) and are
-verified end-to-end on `WasmExecutor` over a seeded ISCO Datom snapshot.
+All 7 commands are retained as kotoba-clj source. Generated WASM is deliberately
+excluded and must be rebuilt by the pinned kotoba engine when deployment requires it.
 
-## Seed census (`isco-occupations.kotoba.edn`)
+## Seed census (`data/isco-occupations.edn`)
 
 | level | count |
 |---|---|
@@ -33,7 +33,8 @@ attributes, 0 dangling `:isco.occupation/parent` refs, 0 nil rows.
 
 ## Verification
 
-`cargo test -p kotoba-clj --test isco_coordinator` → **10 passed**; `--test seed_integrity` runs `validate.clj` over the seed as a CI gate (skips if bb absent). WASM re-emitted on every cell change.
+`bb -cp src:test run_tests.clj` verifies actor boundary, seed integrity, canonical
+contracts, dependencies, and the generated/deprecated-artifact exclusion floor.
 
 ## Sourcing (G8/G11)
 

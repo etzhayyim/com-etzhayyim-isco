@@ -1,0 +1,40 @@
+(ns isco.contract-test
+  (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [clojure.test :refer [deftest is]]))
+
+(defn read-edn [path] (edn/read-string (slurp path)))
+(defn files-with-suffix [dir suffix]
+  (filter #(and (.isFile %) (str/ends-with? (.getName %) suffix))
+          (file-seq (io/file dir))))
+
+(deftest canonical-repository-documents
+  (let [contract (read-edn "repository-contracts.edn")
+        identity (read-edn "identity.edn")
+        manifest (read-edn "manifest.edn")]
+    (is (= :edn (:repository/canonical-format contract)))
+    (is (= "isco" (:identity/actor identity)))
+    (is (= "did:web:isco.etzhayyim.com" (get manifest "@id")))
+    (doseq [legacy (:repository/legacy-artifacts-forbidden contract)]
+      (is (not (.exists (io/file legacy))) (str legacy " must stay pruned")))))
+
+(deftest actor-contracts-are-edn-canonical
+  (let [lexicons (files-with-suffix "lex" ".edn")]
+    (is (= 11 (count lexicons)))
+    (doseq [lexicon lexicons]
+      (is (map? (read-edn (.getPath lexicon))) (.getPath lexicon))))
+  (is (= 2 (count (files-with-suffix "wire/open-isco/bpmn" ".bpmn"))))
+  (is (= 12 (count (files-with-suffix "wire" ".json"))))
+  (is (= 1 (count (files-with-suffix "wire" ".jsonld")))))
+
+(deftest dependencies-are-reproducibly-pinned
+  (doseq [dependency (:dependencies (read-edn "dependencies.edn"))]
+    (is (re-matches #"[0-9a-f]{40}" (:dependency/revision dependency))
+        (str (:dependency/id dependency)))))
+
+(deftest generated-and-deprecated-artifacts-are-absent
+  (is (empty? (files-with-suffix "." ".wasm")))
+  (is (empty? (files-with-suffix "." ".go")))
+  (is (not (.exists (io/file "go.mod"))))
+  (is (not (.exists (io/file "go.sum")))))
